@@ -100,7 +100,7 @@ public class ClientServices {
         if (!client.isPresent()) {
             throw new NotFoundException((format("Cliente com o id: [%s] não encontrado", id)));
         } else {
-            if (client.get().isActive() == true) {
+            if (client.get().isActive() == false) {
                 throw new ClientServicesExceptions((format("Cliente: [%s] já foi deletado", client.get().getFullName())));
             }
             client.get().setDeletedAt(Instant.now());

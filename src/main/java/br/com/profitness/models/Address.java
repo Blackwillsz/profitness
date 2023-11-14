@@ -54,8 +54,8 @@ public class Address {
     @Column(nullable = false, length = 15)
     private String country;
 
-//    @OneToMany(mappedBy = "address", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "address", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+//    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Client> client;
 
     @Column(nullable = false)

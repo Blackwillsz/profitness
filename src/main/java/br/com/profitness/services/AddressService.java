@@ -6,13 +6,11 @@ import br.com.profitness.dto.address.AddressUpdateInput;
 import br.com.profitness.exceptions.AddressExceptions;
 import br.com.profitness.models.Address;
 import br.com.profitness.repositories.AddressRepository;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
 import java.time.Instant;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -28,8 +26,6 @@ public class AddressService {
     public AddressService(final AddressRepository addressRepository) {
         this.addressRepository = Objects.requireNonNull(addressRepository);
     }
-
-
 
 
     @Transactional

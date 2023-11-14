@@ -1,38 +1,41 @@
 package br.com.profitness.cliente;
 
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.Test;
+
 import static io.restassured.RestAssured.*;
-import static io.restassured.matcher.RestAssuredMatchers.*;
-import static org.hamcrest.Matchers.*;
 
 public class ClienteTest {
 
     @Test
     public void testDadoUmPostQuandoCadastroClienteEntaoObtenhaStatusCode201(){
         //Configurar o caminho comum para a API Rest
-        baseURI = "http://localhost";
+        RestAssured.baseURI = "http://localhost";
         port = 8085;
         basePath = "/customers";
 
+
         //Cadastrar Cliente
         given()
-                .body(" {\n" +
-                        "\t\"nomeCompleto\" : \"Stormtropper\",\n" +
-                        "\t\"dataNascimento\" : \"21/05/1790\",\n" +
-                        "\t\"cpf\" : \"226.318.238-18\",\n" +
-                        "\t\"rg\" : \"18.753.002-25\",\n" +
-                        "\t\"ddd\" : \"92\",\n" +
-                        "\t\"numeroTelefone\" : \"15800-2000\",\n" +
-                        "\t\"email\" : \"soldier@galaxy.com\",\n" +
-                        "\t\"sexo\" : \"masculino\",\n" +
-                        "\t\"endereco\" : \"Estrela da Morte\",\n" +
-                        "\t\"ativo\" : \"true\"\n" +
+                .body("{\n" +
+                        "    \"fullName\": \"Darth Vader\",\n" +
+                        "    \"birthDate\": \"21/05/1789\",\n" +
+                        "    \"cpf\": \"738.268.713-91\",\n" +
+                        "    \"rg\": \"25.469.030-0\",\n" +
+                        "    \"ddd\": \"92\",\n" +
+                        "    \"phoneNumber\": \"15800-2000\",\n" +
+                        "    \"email\": \"soldier@galaxy.com\",\n" +
+                        "    \"sex\": \"masculino\",\n" +
+                        "    \"address\": {\n" +
+                        "        \"id\": \"1c4ca2b5-9fe9-4d81-a97d-24efce45670c\"\n" +
+                        "    },\n" +
+                        "    \"active\": true\n" +
                         "}")
                 .contentType(ContentType.JSON)
-            .when()
+        .when()
                 .post("/register")
-            .then()
+        .then()
                 .assertThat()
                 .statusCode(201);
     }
@@ -42,7 +45,7 @@ public class ClienteTest {
         //Configurar o caminho comum para a API Rest
         baseURI = "http://localhost";
         port = 8085;
-        basePath = "/clientes";
+        basePath = "/customers";
 
         //Configurar o buscar todos
         given()
@@ -58,13 +61,13 @@ public class ClienteTest {
     public void testDadoUmGetQuandoBuscarClientePeloIdEntaoObtenhaStatus200(){
         baseURI = "http://localhost";
         port = 8085;
-        basePath = "/clientes";
+        basePath = "/customers";
 
         //Configurar buscar pelo id
         given()
                 .contentType(ContentType.JSON)
         .when()
-                .get("/buscarCliente/96d881e0-4f94-4799-b132-95d78424097f")
+                .get("/buscarCliente/05ef89fc-4efd-41f3-bed3-e3a898996e96")
         .then()
                 .assertThat()
                 .statusCode(200);
@@ -74,19 +77,19 @@ public class ClienteTest {
     public void testDadoUmPutQuandoAtualizarClientePeloIdEntaoObtenhaStatus204(){
         baseURI = "http://localhost";
         port = 8085;
-        basePath = "/clientes";
+        basePath = "/customers";
 
         given()
                 .body(" {\n" +
-                        "  \"nomeCompleto\": \"Willian\",\n" +
-                        "  \"ddd\": \"17\",\n" +
-                        "  \"numeroTelefone\": \"66417-9858\",\n" +
-                        "  \"email\": \"cavaleirojedi@gmail.com\",\n" +
-                        "  \"ativo\": \"true\"\n" +
+                        "  \"fullName\": \"Heloise Alana Larissa Aparício\",\n" +
+                        "  \"ddd\": \"75\",\n" +
+                        "  \"phoneNumber\": \"99263-0960\",\n" +
+                        "  \"email\": \"heloise_alana@icloud.com\",\n" +
+                        "  \"active\": \"true\"\n" +
                         "} ")
                 .contentType(ContentType.JSON)
         .when()
-                .put("/atualizarCliente/96d881e0-4f94-4799-b132-95d78424097f")
+                .put("/atualizarCliente/f6d593b8-721e-405f-80a5-78dc41dc7787")
         .then()
                 .assertThat()
                 .statusCode(204);
@@ -96,15 +99,31 @@ public class ClienteTest {
     public void testDadoUmDeleteQuandoDeletarUmClientePeloIdEntaoObtenhaStatus200(){
         baseURI = "http://localhost";
         port = 8085;
-        basePath = "/clientes";
+        basePath = "/customers";
 
         //Configurar buscar pelo id
         given()
                 .contentType(ContentType.JSON)
         .when()
-                .delete("/2c54d808-a7ab-49a0-8db1-92e6f336582b")
+                .delete("/deletarCliente/ea6974ae-5160-41ab-8cd0-6cc62398485e")
         .then()
                 .assertThat()
                 .statusCode(200);
+    }
+
+    @Test
+    public void testDadoUmDeleteQuandoDeletarUmClienteQueJaFoiDeletadoObtenhaStatus409(){
+        baseURI = "http://localhost";
+        port = 8085;
+        basePath = "/customers";
+
+        //Configurar buscar pelo id
+        given()
+                .contentType(ContentType.JSON)
+        .when()
+                .delete("/deletarCliente/ea6974ae-5160-41ab-8cd0-6cc62398485e")
+        .then()
+                .assertThat()
+                .statusCode(409);
     }
 }

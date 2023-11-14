@@ -3,13 +3,11 @@ package br.com.profitness.controllers;
 import br.com.profitness.dto.client.ClientDto;
 import br.com.profitness.dto.client.ClientInput;
 import br.com.profitness.dto.client.ClientUpdateDto;
-
 import br.com.profitness.exceptions.ClientServicesExceptions;
 import br.com.profitness.models.Client;
 import br.com.profitness.responses.Response;
 import br.com.profitness.services.ClientServices;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +38,7 @@ public class ClientController {
             return ClientDto.respostaDto(cliente);
         }
 
-        @GetMapping(value = "/buscarTodos")
+        @GetMapping(value = "/searchAll")
         public ResponseEntity<Response<List<Client>>> findAllClients(){
             List<Client> clients = null;
             clients = clientServices.findAllCustomer();
@@ -49,7 +47,7 @@ public class ClientController {
             return ResponseEntity.status(HttpStatus.OK).body(clientResponse);
         }
 
-        @GetMapping(value = "/buscarCliente/{id}")
+        @GetMapping(value = "/searchConsumer/{id}")
         public ResponseEntity<Response<ClientDto>> findById(@PathVariable UUID id) {
             Response<ClientDto> response = new Response<ClientDto>();
             ClientDto clientResponse;
@@ -68,15 +66,8 @@ public class ClientController {
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
 
-//        @PutMapping(value = "/atualizarCliente/{id}")
-//        public ClientDto updateCustomerData(@PathVariable UUID id, @RequestBody @Valid ClientUpdateDto clienteUpdate ){
-//            ClientDto clienteDto;
-//            Client client = clientServices.updateClient(id, clienteUpdate);
-//            clienteDto = clienteUpdate.toDto();
-//            return ClientDto.respostaDto(client);
-//        }
 
-        @DeleteMapping(value = "/{id}")
+        @DeleteMapping(value = "/deleteConsumer/{id}")
         public ResponseEntity<Response<ClientDto>> deletarCliente(@PathVariable UUID id) {
             Response<ClientDto> response = new Response<ClientDto>();
             ClientDto clientResponse;
@@ -94,6 +85,7 @@ public class ClientController {
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
 
+        @PutMapping(value = "/updateConsumer/{id}")
         public ResponseEntity<Response<ClientDto>> updateCustomerData(@PathVariable UUID id, @RequestBody @Valid ClientUpdateDto clientUpdate) {
             Response<ClientDto> response = new Response<ClientDto>();
             ClientDto clientDto;
@@ -112,8 +104,4 @@ public class ClientController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
         }
 
-//        @DeleteMapping(value = "/{id}")
-//        public void deletarCliente(@PathVariable UUID id) {
-//            clientServices.delete(id);
-//        }
 }

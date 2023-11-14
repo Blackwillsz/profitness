@@ -36,7 +36,7 @@ public class AddressController {
         return AddressDto.responseDto(address);
     }
 
-    @GetMapping(value = "/findAll")
+    @GetMapping(value = "/searchAll")
     public ResponseEntity<Response<List<Address>>> findAllAddress(){
         List<Address> address = addressService.findAllAddress();
         Response<List<Address>> addressResponse = new Response<>();
@@ -69,7 +69,7 @@ public class AddressController {
         return AddressDto.responseDto(address);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/deleteAddress/{id}")
     public ResponseEntity<Response<AddressDto>> deletarCliente(@PathVariable UUID id) {
         Response<AddressDto> response = new Response<AddressDto>();
         AddressDto addressResponse;
